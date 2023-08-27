@@ -1,5 +1,39 @@
 # Data.gov.au Magda Config
 
+#Instalamos el cert manager
+https://cert-manager.io/docs/installation/helm/
+
+helm repo add --force-update jetstack https://charts.jetstack.io
+helm repo update
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.12.0/cert-manager.crds.yaml
+
+helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --version v1.12.0 
+
+			In order to begin issuing certificates, you will need to set up a ClusterIssuer
+			or Issuer resource (for example, by creating a 'letsencrypt-staging' issuer).
+
+			More information on the different types of issuers and how to configure them
+			can be found in our documentation:
+
+			https://cert-manager.io/docs/configuration/
+
+			For information on how to configure cert-manager to automatically provision
+			Certificates for Ingress resources, take a look at the `ingress-shim`
+			documentation:
+
+			https://cert-manager.io/docs/usage/ingress/
+
+#ingress
+#https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nginx-ingress-with-cert-manager-on-digitalocean-kubernetes
+
+helm install nginx-ingress ingress-nginx/ingress-nginx --set controller.publishService.enabled=true --set controller.service.externalTrafficPolicy=Local
+
+kubectl apply -f hello-kubernetes-ingress.yaml
+
+
+
+
+
 This is the custom magda config used for running search.data.gov.au. It shows an example of how you can run a high-availability configuration of Magda under GKE.
 
 Keep in mind that Data.gov.au uses a number of services that exist outside Kubernetes and are a bit fiddly to set up - in particularly it uses Let's Encrypt for HTTPS through its domain hosted on Route53 in AWS, a GCE Ingress (which should be automatically provisioned by Google Cloud but often needs some nudging via the console) and Google Cloud SQL postgres (which requires the right secrets to be set up for both a service account and a database user).
