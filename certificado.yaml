@@ -1,0 +1,29 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: magda-cert
+spec:
+  # Secret names are always required.
+  secretName: magda-cert-tls
+
+  # secretTemplate is optional. If set, these annotations and labels will be
+  # copied to the Secret named example-com-tls. These labels and annotations will
+  # be re-reconciled if the Certificate's secretTemplate changes. secretTemplate
+  # is also enforced, so relevant label and annotation changes on the Secret by a
+  # third party will be overwriten by cert-manager to match the secretTemplate.
+
+
+  # The use of the common name field has been deprecated since 2000 and is
+  # discouraged from being used.
+  commonName: magda.pabrojast.com
+  # At least one of a DNS Name, URI, or IP address is required.
+  dnsNames:
+    - magda.pabrojast.com
+  issuerRef:
+    name: letsencrypt
+    # We can reference ClusterIssuers by changing the kind here.
+    # The default value is Issuer (i.e. a locally namespaced Issuer)
+    kind: ClusterIssuer
+    # This is optional since cert-manager will default to this value however
+    # if you are using an external issuer, change this to that issuer group.
+    group: cert-manager.io

@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: echo-ingress
+spec:
+  ingressClassName: 
+  rules: ingress-nginx
+  - host: magda.pabrojast.com
+    http:
+        paths:
+        - pathType: Prefix
+          path: "/"
+          backend:
+            service:
+              name: getaway
+              port:
+                number: 80

@@ -5,17 +5,17 @@ global:
   ## all run in separate pods unless some managed postgres solution (e.g.
   ## useCloudSql) is specified elsewhere.
   ## Running in separate pods scales better, but requires more resources
-  useCombinedDb: false
+  useCombinedDb: true
 
   ## Whether to use the Google Cloud SQL managed postgres solution. Only set
   ## this to true if you already have cloud sql set up and be sure to look at
   ## settings for the cloud-sql-proxy service below.
-  useCloudSql: true
+  useCloudSql: false
 
   ## The external URL of the installation, e.g. "https://search.data.gov.au".
   ## This is used in a number of places, including linking back to the site
   ## from emails, creating a absolute sitemap URL for robots.txt, etc.
-  externalUrl: https://data.gov.au
+  externalUrl: http://magda.dev-wins.com
 
   ## How to handle rolling updates during a deployment. If set to 0, kubernetes
   ## will happily take down pods while it replaces them (useful for dev setups).
@@ -139,287 +139,287 @@ tags:
   minion-ckan-exporter: false
 
 ## These are the external jobs that pull data in from other data portals. A default is provided here for you.
-connector-dga:
-  config:
-    ## Unique id to identify this connector and records that are harvested from it
-    id: dga
-    ## Friendly readable name
-    name: "data.gov.au"
-    ## The base URL of the place to source data from
-    sourceUrl: "https://data.gov.au/data/"
-    ## When crawling through from beginning to end, how big should the individual requests be in records?
-    pageSize: 100
-    ## Crontab schedule for how often this should happen.
-    schedule: "0 * * * *"
-    ## CKAN-specific config: what harvest sources to ignore. * will ignore everything that's been harvested
-    ## from another portal
-    ignoreHarvestSources: ["*"]
+# connector-dga:
+  # config:
+    # ## Unique id to identify this connector and records that are harvested from it
+    # id: dga
+    # ## Friendly readable name
+    # name: "data.gov.au"
+    # ## The base URL of the place to source data from
+    # sourceUrl: "https://data.gov.au/data/"
+    # ## When crawling through from beginning to end, how big should the individual requests be in records?
+    # pageSize: 100
+    # ## Crontab schedule for how often this should happen.
+    # schedule: "0 * * * *"
+    # ## CKAN-specific config: what harvest sources to ignore. * will ignore everything that's been harvested
+    # ## from another portal
+    # ignoreHarvestSources: ["*"]
   
-connector-act:
-  config:
-    id: act
-    name: ACT Government data.act.gov.au
-    sourceUrl: https://www.data.act.gov.au/data.json
-    schedule: 0 0 */3 * *
+# connector-act:
+  # config:
+    # id: act
+    # name: ACT Government data.act.gov.au
+    # sourceUrl: https://www.data.act.gov.au/data.json
+    # schedule: 0 0 */3 * *
 
-connector-actmapi:
-  config:
-    id: actmapi
-    name: ACT Government ACTMAPi
-    sourceUrl: https://actmapi-actgov.opendata.arcgis.com/api/feed/dcat-us/1.1.json
-    schedule: 45 0 */3 * *
+# connector-actmapi:
+  # config:
+    # id: actmapi
+    # name: ACT Government ACTMAPi
+    # sourceUrl: https://actmapi-actgov.opendata.arcgis.com/api/feed/dcat-us/1.1.json
+    # schedule: 45 0 */3 * *
 
-connector-aims:
-  config:
-    id: aims
-    name: Australian Institute of Marine Science
-    sourceUrl: https://geo.aims.gov.au/geonetwork/srv/eng/csw
-    pageSize: 100
-    schedule: 0 1 */3 * *
+# connector-aims:
+  # config:
+    # id: aims
+    # name: Australian Institute of Marine Science
+    # sourceUrl: https://geo.aims.gov.au/geonetwork/srv/eng/csw
+    # pageSize: 100
+    # schedule: 0 1 */3 * *
 
-connector-aodn:
-  config:
-    id: aodn
-    name: Australian Oceans Data Network
-    sourceUrl: https://catalogue.aodn.org.au/geonetwork/srv/eng/csw
-    outputSchema: http://standards.iso.org/iso/19115/-3/mdb/2.0
-    typeNames: mdb:MD_Metadata
-    pageSize: 100
-    schedule: 30 1 */3 * *
+# connector-aodn:
+  # config:
+    # id: aodn
+    # name: Australian Oceans Data Network
+    # sourceUrl: https://catalogue.aodn.org.au/geonetwork/srv/eng/csw
+    # outputSchema: http://standards.iso.org/iso/19115/-3/mdb/2.0
+    # typeNames: mdb:MD_Metadata
+    # pageSize: 100
+    # schedule: 30 1 */3 * *
 
-connector-bom:
-  config:
-    id: bom
-    name: Bureau of Meteorology
-    sourceUrl: http://www.bom.gov.au/geonetwork/srv/eng/csw
-    pageSize: 100
-    schedule: 0 13 */3 * *
+# connector-bom:
+  # config:
+    # id: bom
+    # name: Bureau of Meteorology
+    # sourceUrl: http://www.bom.gov.au/geonetwork/srv/eng/csw
+    # pageSize: 100
+    # schedule: 0 13 */3 * *
 
-connector-aurin:
-  config:
-    id: aurin
-    name: Australian Urban Research Infrastructure Network
-    sourceUrl: https://data.aurin.org.au/
-    pageSize: 100
-    schedule: 0 1 */3 * *
+# connector-aurin:
+  # config:
+    # id: aurin
+    # name: Australian Urban Research Infrastructure Network
+    # sourceUrl: https://data.aurin.org.au/
+    # pageSize: 100
+    # schedule: 0 1 */3 * *
 
-connector-brisbane:
-  config:
-    id: brisbane
-    name: Brisbane City Council
-    sourceUrl: https://www.data.brisbane.qld.gov.au/data/
-    pageSize: 100
-    schedule: 10 * */1 * *
+# connector-brisbane:
+  # config:
+    # id: brisbane
+    # name: Brisbane City Council
+    # sourceUrl: https://www.data.brisbane.qld.gov.au/data/
+    # pageSize: 100
+    # schedule: 10 * */1 * *
 
-connector-hobart:
-  config:
-    id: hobart
-    name: City of Hobart Open Data Portal
-    sourceUrl: https://data-1-hobartcc.opendata.arcgis.com/api/feed/dcat-us/1.1.json
-    schedule: 30 2 */3 * *
+# connector-hobart:
+  # config:
+    # id: hobart
+    # name: City of Hobart Open Data Portal
+    # sourceUrl: https://data-1-hobartcc.opendata.arcgis.com/api/feed/dcat-us/1.1.json
+    # schedule: 30 2 */3 * *
 
-connector-marlin:
-  config:
-    id: marlin
-    name: CSIRO Marlin
-    sourceUrl: http://www.marlin.csiro.au/geonetwork/srv/eng/csw
-    pageSize: 50
-    schedule: 30 3 */3 * *
+# connector-marlin:
+  # config:
+    # id: marlin
+    # name: CSIRO Marlin
+    # sourceUrl: http://www.marlin.csiro.au/geonetwork/srv/eng/csw
+    # pageSize: 50
+    # schedule: 30 3 */3 * *
 
-connector-ga:
-  config:
-    id: ga
-    name: Geoscience Australia
-    sourceUrl: https://ecat.ga.gov.au/geonetwork/srv/eng/csw
-    outputSchema: http://standards.iso.org/iso/19115/-3/mdb/1.0
-    typeNames: mdb:MD_Metadata
-    pageSize: 100
-    schedule: 0 5 */3 * *
+# connector-ga:
+  # config:
+    # id: ga
+    # name: Geoscience Australia
+    # sourceUrl: https://ecat.ga.gov.au/geonetwork/srv/eng/csw
+    # outputSchema: http://standards.iso.org/iso/19115/-3/mdb/1.0
+    # typeNames: mdb:MD_Metadata
+    # pageSize: 100
+    # schedule: 0 5 */3 * *
 
-connector-logan:
-  config:
-    id: logan
-    name: Logan City Council
-    sourceUrl: https://data-logancity.opendata.arcgis.com/api/feed/dcat-us/1.1.json
-    schedule: 30 5 */3 * *
+# connector-logan:
+  # config:
+    # id: logan
+    # name: Logan City Council
+    # sourceUrl: https://data-logancity.opendata.arcgis.com/api/feed/dcat-us/1.1.json
+    # schedule: 30 5 */3 * *
 
-connector-melbournewater:
-  config:
-    id: melbournewater
-    name: Melbourne Water Corporation
-    sourceUrl: https://data-melbournewater.opendata.arcgis.com/api/feed/dcat-us/1.1.json
-    schedule: "30 4 */3 * *"
+# connector-melbournewater:
+  # config:
+    # id: melbournewater
+    # name: Melbourne Water Corporation
+    # sourceUrl: https://data-melbournewater.opendata.arcgis.com/api/feed/dcat-us/1.1.json
+    # schedule: "30 4 */3 * *"
 
-connector-melbourne:
-  config:
-    id: melbourne
-    name: Melbourne Data
-    sourceUrl: https://data.melbourne.vic.gov.au/data.json
-    schedule: 0 6 */3 * *
+# connector-melbourne:
+  # config:
+    # id: melbourne
+    # name: Melbourne Data
+    # sourceUrl: https://data.melbourne.vic.gov.au/data.json
+    # schedule: 0 6 */3 * *
 
-connector-mrt:
-  config:
-    id: mrt
-    name: Mineral Resources Tasmania
-    sourceUrl: http://www.mrt.tas.gov.au/web-catalogue/srv/eng/csw
-    pageSize: 100
-    schedule: 30 6 */3 * *
+# connector-mrt:
+  # config:
+    # id: mrt
+    # name: Mineral Resources Tasmania
+    # sourceUrl: http://www.mrt.tas.gov.au/web-catalogue/srv/eng/csw
+    # pageSize: 100
+    # schedule: 30 6 */3 * *
 
-connector-moretonbay:
-  config:
-    id: moretonbay
-    name: Moreton Bay Regional Council Data Portal
-    sourceUrl: https://datahub.moretonbay.qld.gov.au/api/feed/dcat-us/1.1.json
-    schedule: 0 7 */3 * *
+# connector-moretonbay:
+  # config:
+    # id: moretonbay
+    # name: Moreton Bay Regional Council Data Portal
+    # sourceUrl: https://datahub.moretonbay.qld.gov.au/api/feed/dcat-us/1.1.json
+    # schedule: 0 7 */3 * *
 
-connector-nsw:
-  config:
-    id: nsw
-    name: New South Wales Government
-    sourceUrl: https://data.nsw.gov.au/data/
-    pageSize: 100
-    schedule: 20 * * * *
+# connector-nsw:
+  # config:
+    # id: nsw
+    # name: New South Wales Government
+    # sourceUrl: https://data.nsw.gov.au/data/
+    # pageSize: 100
+    # schedule: 20 * * * *
 
-connector-sdinsw:
-  config:
-    id: sdinsw
-    name: NSW Land and Property
-    sourceUrl: https://sdi.nsw.gov.au/csw
-    pageSize: 100
-    schedule: 0 9 */3 * *
+# connector-sdinsw:
+  # config:
+    # id: sdinsw
+    # name: NSW Land and Property
+    # sourceUrl: https://sdi.nsw.gov.au/csw
+    # pageSize: 100
+    # schedule: 0 9 */3 * *
 
-connector-qld:
-  config:
-    id: qld
-    name: Queensland Government
-    sourceUrl: https://data.qld.gov.au/
-    pageSize: 100
-    schedule: 30 * * * *
+# connector-qld:
+  # config:
+    # id: qld
+    # name: Queensland Government
+    # sourceUrl: https://data.qld.gov.au/
+    # pageSize: 100
+    # schedule: 30 * * * *
 
-connector-sa:
-  config:
-    id: sa
-    name: South Australia Government
-    sourceUrl: https://data.sa.gov.au/data/
-    pageSize: 100
-    schedule: 40 * * * *
+# connector-sa:
+  # config:
+    # id: sa
+    # name: South Australia Government
+    # sourceUrl: https://data.sa.gov.au/data/
+    # pageSize: 100
+    # schedule: 40 * * * *
 
-connector-listtas:
-  config:
-    id: listtas
-    name: Tasmania TheList
-    sourceUrl: https://data.thelist.tas.gov.au:443/datagn/srv/eng/csw
-    pageSize: 100
-    schedule: 30 10 */3 * *
+# connector-listtas:
+  # config:
+    # id: listtas
+    # name: Tasmania TheList
+    # sourceUrl: https://data.thelist.tas.gov.au:443/datagn/srv/eng/csw
+    # pageSize: 100
+    # schedule: 30 10 */3 * *
 
-connector-tern:
-  config:
-    id: tern
-    name: Terrestrial Ecosystem Research Network
-    sourceUrl: http://data.auscover.org.au/geonetwork/srv/eng/csw
-    pageSize: 100
-    schedule: 0 11 */3 * *
+# connector-tern:
+  # config:
+    # id: tern
+    # name: Terrestrial Ecosystem Research Network
+    # sourceUrl: http://data.auscover.org.au/geonetwork/srv/eng/csw
+    # pageSize: 100
+    # schedule: 0 11 */3 * *
 
-connector-vic:
-  config:
-    id: vic
-    name: Victoria Government
-    sourceUrl: https://discover.data.vic.gov.au/
-    pageSize: 100
-    schedule: 50 * * * *
-    ignoreHarvestSources: []
-    presetRecordAspects:
-    - id: organization-details
-      recordType: Organization
-      data: 
-        title: "Victoria Government"
-        jurisdiction: "Victoria Government"
+# connector-vic:
+  # config:
+    # id: vic
+    # name: Victoria Government
+    # sourceUrl: https://discover.data.vic.gov.au/
+    # pageSize: 100
+    # schedule: 50 * * * *
+    # ignoreHarvestSources: []
+    # presetRecordAspects:
+    # - id: organization-details
+      # recordType: Organization
+      # data: 
+        # title: "Victoria Government"
+        # jurisdiction: "Victoria Government"
 
-connector-wa:
-  config:
-    id: wa
-    name: Western Australia Government
-    sourceUrl: https://catalogue.data.wa.gov.au/
-    pageSize: 25
-    schedule: 55 * * * *
+# connector-wa:
+  # config:
+    # id: wa
+    # name: Western Australia Government
+    # sourceUrl: https://catalogue.data.wa.gov.au/
+    # pageSize: 25
+    # schedule: 55 * * * *
 
-connector-dap:
-  config:
-    id: dap
-    name: CSIRO
-    sourceUrl: https://data.csiro.au/dap/ws/v2/
-    pageSize: 100
-    schedule: 0 14 * * 6
+# connector-dap:
+  # config:
+    # id: dap
+    # name: CSIRO
+    # sourceUrl: https://data.csiro.au/dap/ws/v2/
+    # pageSize: 100
+    # schedule: 0 14 * * 6
 
-connector-vic-cardinia:
-  config:
-    id: vic-cardinia
-    name: Cardinia Shire Council
-    sourceUrl: https://data-cscgis.opendata.arcgis.com/api/feed/dcat-us/1.1.json
-    schedule: 30 11 * * *
+# connector-vic-cardinia:
+  # config:
+    # id: vic-cardinia
+    # name: Cardinia Shire Council
+    # sourceUrl: https://data-cscgis.opendata.arcgis.com/api/feed/dcat-us/1.1.json
+    # schedule: 30 11 * * *
 
-connector-nt-darwin:
-  config:
-    id: nt-darwin
-    name: City of Darwin
-    sourceUrl: https://open-darwin.opendata.arcgis.com/api/feed/dcat-us/1.1.json
-    schedule: 0 12 */3 * *
+# connector-nt-darwin:
+  # config:
+    # id: nt-darwin
+    # name: City of Darwin
+    # sourceUrl: https://open-darwin.opendata.arcgis.com/api/feed/dcat-us/1.1.json
+    # schedule: 0 12 */3 * *
 
-connector-southern-grampians:
-  config:
-    id: southern-grampians
-    name: Southern Grampians Shire Council
-    sourceUrl: https://www.connectgh.com.au/data.json
-    schedule: 30 12 */3 * *
+# connector-southern-grampians:
+  # config:
+    # id: southern-grampians
+    # name: Southern Grampians Shire Council
+    # sourceUrl: https://www.connectgh.com.au/data.json
+    # schedule: 30 12 */3 * *
 
-connector-gbrmpa:
-  config:
-    id: gbrmpa
-    name: GBRMPA Geoportal
-    sourceUrl: https://geoportal.gbrmpa.gov.au/api/feed/dcat-us/1.1.json
-    schedule: 30 15 */3 * *
+# connector-gbrmpa:
+  # config:
+    # id: gbrmpa
+    # name: GBRMPA Geoportal
+    # sourceUrl: https://geoportal.gbrmpa.gov.au/api/feed/dcat-us/1.1.json
+    # schedule: 30 15 */3 * *
 
-connector-launceston:
-  config:
-    id: launceston
-    name: City of Launceston Open Data
-    sourceUrl: https://opendata.launceston.tas.gov.au/api/feed/dcat-us/1.1.json
-    schedule: 0 3 */3 * *    
+# connector-launceston:
+  # config:
+    # id: launceston
+    # name: City of Launceston Open Data
+    # sourceUrl: https://opendata.launceston.tas.gov.au/api/feed/dcat-us/1.1.json
+    # schedule: 0 3 */3 * *    
 
-connector-ditrdca:
-  config:
-    id: ditrdca
-    name: Department of infrastructure
-    sourceUrl: https://catalogue.data.infrastructure.gov.au/
-    pageSize: 25
-    ignoreHarvestSources: ["No"]
-    schedule: 55 13 * * *
+# connector-ditrdca:
+  # config:
+    # id: ditrdca
+    # name: Department of infrastructure
+    # sourceUrl: https://catalogue.data.infrastructure.gov.au/
+    # pageSize: 25
+    # ignoreHarvestSources: ["No"]
+    # schedule: 55 13 * * *
 
-connector-dcceew:
-  config:
-    id: dcceew
-    name: "Department of Climate Change, Energy, the Environment and Water"
-    sourceUrl: https://fed.dcceew.gov.au/api/feed/dcat-us/1.1.json
-    schedule: 10 13 * * 6
+# connector-dcceew:
+  # config:
+    # id: dcceew
+    # name: "Department of Climate Change, Energy, the Environment and Water"
+    # sourceUrl: https://fed.dcceew.gov.au/api/feed/dcat-us/1.1.json
+    # schedule: 10 13 * * 6
 
-connector-bundaberg:
-  config:
-    id: bundaberg
-    name: Bundaberg Regional Council
-    sourceUrl: https://opendata-bundabergrc.hub.arcgis.com/api/feed/dcat-us/1.1.json
-    schedule: 30 13 * * *
-    presetRecordAspects:
-    - id: organization-details
-      recordType: Organization
-      opType: MERGE_RIGHT
-      data: 
-        title: "Bundaberg Regional Council"
-        jurisdiction: "Queensland Government"
-    - id: dcat-dataset-strings
-      recordType: Dataset
-      opType: MERGE_RIGHT
-      data: 
-        publisher: "Bundaberg Regional Council"
+# connector-bundaberg:
+  # config:
+    # id: bundaberg
+    # name: Bundaberg Regional Council
+    # sourceUrl: https://opendata-bundabergrc.hub.arcgis.com/api/feed/dcat-us/1.1.json
+    # schedule: 30 13 * * *
+    # presetRecordAspects:
+    # - id: organization-details
+      # recordType: Organization
+      # opType: MERGE_RIGHT
+      # data: 
+        # title: "Bundaberg Regional Council"
+        # jurisdiction: "Queensland Government"
+    # - id: dcat-dataset-strings
+      # recordType: Dataset
+      # opType: MERGE_RIGHT
+      # data: 
+        # publisher: "Bundaberg Regional Council"
       
       ## CKAN-only: Only get datasets that match this organisation name - you can only have one due to limitations
       ## in the CKAN API, if you need multiple organisations make multiple connectors.
@@ -441,24 +441,23 @@ connector-bundaberg:
 
 ## Settings for the ingress. You need one of these if you want to do SSL or use the Google CDN on GKE
 ## Otherwise using the built-in Kubernetes LoadBalancer works ok.
-ingress:
-  ## The hostname of the site
-  hostname: search.data.gov.au
-  ## The name of the external ip to use - used when using the GCE ingress type
-  ipName: search-data-gov-au-ingress
-  ## The class of the ingress - if running on GKE, gce will automatically work, otherwise you
-  ## can use "nginx" which requires extra setup
-  ingressClass: gce
-  ## Whether to enable TLS - requires a TLS secret to be set:
-  ## https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster/
-  enableTls: true
-  ## Name of the tls secret, defaults to "magda-cert-tls"
-  tlsSecretName: "magda-cert-tls"
-  ## Domains to attempt to obtain an SSL certificate for from let's encrypt, if using certmanager
-  ## (requires extra setup)
-  domains:
-    - search.data.gov.au
-    - letest.search.data.gov.au
+# ingress:
+  # ## The hostname of the site
+  # hostname: magda.dev-wins.com
+  # ## The name of the external ip to use - used when using the GCE ingress type
+  # ## The class of the ingress - if running on GKE, gce will automatically work, otherwise you
+  # ## can use "nginx" which requires extra setup
+  # ingressClass: nginx
+  # ## Whether to enable TLS - requires a TLS secret to be set:
+  # ## https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster/
+  # enableTls: false
+  # ## Name of the tls secret, defaults to "magda-cert-tls"
+  # tlsSecretName: "magda-cert-tls"
+  # ## Domains to attempt to obtain an SSL certificate for from let's encrypt, if using certmanager
+  # ## (requires extra setup)
+  # domains:
+    # - magda.dev-wins.com
+    # - "*.magda.dev-wins.com"
 
 # All core components are configurable under magda / magda-core instead
 # connectors & minions are not core components anymore
@@ -484,6 +483,7 @@ magda:
       data.csiro.au: 5
       data.gov.au: 5
       data.act.gov.au: 30
+      magda.dev-wins.com: 5
     
   ## Settings for the format minion, which tries to determine the true format of a 
   ## distribution based on a number of criteria.
@@ -605,32 +605,32 @@ magda:
         ## whether to enable autoscaling
         enabled: true
         ## The minimum number of replicas to have
-        minReplicas: 3
+        minReplicas: 2
         ## The maximum number of replicas to have
-        maxReplicas: 8
+        maxReplicas: 3
 
 
     ## Settings for the authorization-db, which serves the authorization-api
     # authorization-db:
 
     ## A pod for proxying to Google Cloud SQL, the GCE managed database service.
-    cloud-sql-proxy:
-      replicas: 2
-      autoscaler:
-        enabled: true
-        minReplicas: 2
-        maxReplicas: 5
+    # cloud-sql-proxy:
+      # replicas: 2
+      # autoscaler:
+        # enabled: true
+        # minReplicas: 2
+        # maxReplicas: 3
 
-      resources:
-        requests:
-          cpu: 150m
-          memory: 50Mi
+      # resources:
+        # requests:
+          # cpu: 150m
+          # memory: 50Mi
 
-      ## The cloud sql instance to connect to
-      instanceConnectionName: terriajs:australia-southeast1:dga-magda-prod-new
+      # ## The cloud sql instance to connect to
+      # instanceConnectionName: terriajs:australia-southeast1:dga-magda-prod-new
 
-    ## A pod that combines all the databases if global.useCombinedDb is set to true
-    # combined-db:
+    # ## A pod that combines all the databases if global.useCombinedDb is set to true
+    # # combined-db:
 
     ## A pod that controls the content in magda's UI
     content-api:
@@ -650,7 +650,7 @@ magda:
         ## The minimum number of replicas to have
         minReplicas: 2
         ## The maximum number of replicas to have
-        maxReplicas: 5
+        maxReplicas: 3
 
       ## Override the SCSS variables used by Magda's SCSS files. Look at the "_variables.scss"
       ## file in the magda code for details. Most customisation can be performed by setting
@@ -666,7 +666,7 @@ magda:
 
       ## The default recipient to email when there's no other choice - e.g. when asking a
       ## question about a dataset for which there's no organisational email
-      defaultRecipient: "support@data.gov.au"
+      defaultRecipient: "projas@cazalac.org"
 
       ## The hostname of the SMTP server to use - the password should be in a secret
       smtpHostname: "smtp.mailgun.org"
@@ -738,6 +738,7 @@ magda:
     ## The gateway accepts incoming connections and directs them to the appropriate api pod,
     ## or the web server pod
     gateway:
+      enableAuthEndpoint: true
       # service:
         ## The type of kubernetes service to use for the gateway - set to LoadBalancer to
         ## expose an external IP, or set to "NodePort" if using an ingress
@@ -749,9 +750,9 @@ magda:
 
       ## If replacing a CKAN installation with Magda, this will redirect CKAN paths without
       ## direct magda equivalents (e.g. the API) to a ckan installation at this domain
-      ckanRedirectionDomain: "data.gov.au"
-      ckanRedirectionPath: "/data"
-      enableCkanRedirection: true
+      # ckanRedirectionDomain: "data.gov.au"
+      # ckanRedirectionPath: "/data"
+      # enableCkanRedirection: true
 
       replicas: 2
 
@@ -762,7 +763,7 @@ magda:
         ## The minimum number of replicas to have
         minReplicas: 2
         ## The maximum number of replicas to have
-        maxReplicas: 5
+        maxReplicas: 3
 
       authPlugins:
       - key: internal
@@ -809,6 +810,7 @@ magda:
         - https://data.gov.au
         - https://search.data.gov.au
         - https://nationalmap.gov.au
+        - https://magda.dev-wins.com
         
       ## Enables authorization, include a list of authorization options at /auth/providers
       ## and a simple form at /auth that allows you to test login and logout functionality
@@ -816,7 +818,7 @@ magda:
       enableAuthEndpoint: true
 
       ## Redirect HTTP urls to HTTPs urls
-      enableHttpsRedirection: true
+      enableHttpsRedirection: false
 
       resources:
         requests:
@@ -837,7 +839,7 @@ magda:
         ## In general you want a number of shards equal to the lowest number of data nodes
         ## possible, and a number of replicas equal to the highest number.
         shards: 2
-        replicas: 4
+        replicas: 3
       resources:
         requests:
           cpu: 100m
@@ -889,6 +891,7 @@ magda:
           - data.nsw.gov.au
           - edu.au
           - nsw.gov.au
+          - magda.dev-wins.com
           
 
       ## Configure the autoscaler
@@ -898,7 +901,7 @@ magda:
         ## The minimum number of replicas to have
         minReplicas: 2
         ## The maximum number of replicas to have
-        maxReplicas: 5
+        maxReplicas: 3
 
     ## Configures the registry, which holds information about datasets, distributions,
     ## organisations etc and distributes it.
@@ -927,7 +930,7 @@ magda:
         ## The minimum number of replicas to have
         minReplicas: 2
         ## The maximum number of replicas to have
-        maxReplicas: 5
+        maxReplicas: 3
 
       ## The registry api is able to be split into two kinds of deployments: full, which does everything
       ## but can only ever run one pod at a time, and read-only, which can only do read-only requests but
@@ -1001,7 +1004,7 @@ magda:
         ## The minimum number of replicas to have
         minReplicas: 2
         ## The maximum number of replicas to have
-        maxReplicas: 5
+        maxReplicas: 3
 
     ## Configures the database used to store session information by passport js, if
     ## one is being used.
@@ -1014,9 +1017,9 @@ magda:
       autoscaler:
         enabled: true
         minReplicas: 2
-        maxReplicas: 5
+        maxReplicas: 3
       
-      defaultContactEmail: "support@data.gov.au"
+      defaultContactEmail: "projas@cazalac.org"
 
       featureFlags:
         cataloguing: false
@@ -1031,10 +1034,10 @@ magda:
 
       ## If you're replacing an existing system, you can set its url here to display a
       ## banner allowing people to go back if they don't like the new system.
-      fallbackUrl: "https://data.gov.au/data/"
+      fallbackUrl: "https://magda.dev-wins.com/"
 
-      openInExternalTerriaMapButtonText: "Open in NationalMap"
-      openInExternalTerriaMapTargetUrl: "https://nationalmap.gov.au/"
+      openInExternalTerriaMapButtonText: "Open in Terria"
+      openInExternalTerriaMapTargetUrl: "https://terria.dev-wins.com/"
       supportExternalTerriaMapV7: false
 
       showContactButtonForNoContactPointDataset: false
